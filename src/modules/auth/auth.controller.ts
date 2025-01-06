@@ -1,5 +1,4 @@
-import { Get, Controller } from '../../libs/decorators';
-
+import { Controller, Get } from '@/libs/decorators';
 import { Service } from 'typedi';
 import AuthService from './auth.service';
 

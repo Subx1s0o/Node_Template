@@ -1,4 +1,4 @@
-import 'reflect-metadata/lite';
+import 'reflect-metadata';
 
 export function Controller(path: string) {
   return function (constructor: Function) {
