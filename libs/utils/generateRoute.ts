@@ -65,7 +65,9 @@ export function generateRoutes(controller: ControllerType): Router {
         logger.log(
           chalk.white(
             '[Initialized route]: ' +
-              chalk.green(`${methodType.toUpperCase()} ${fullPath}`)
+              chalk.yellow(
+                `${methodType.toUpperCase()}` + chalk.green(` - ${fullPath}`)
+              )
           )
         );
 

@@ -5,6 +5,7 @@ import { authRouter } from './modules/auth/auth.route';
 import { Logger } from '@/libs/utils';
 import ConfigService from '@/libs/config/config.service';
 import { configDotenv } from 'dotenv';
+import { usersRouter } from './modules/users/users.route';
 
 configDotenv();
 const app = express();
@@ -14,6 +15,7 @@ const PORT = config.get('PORT', '3000');
 
 app.use(express.json());
 app.use(authRouter);
+app.use(usersRouter);
 
 app.listen(PORT, () => {
   logger.log(`Server running on port ${PORT}`);
