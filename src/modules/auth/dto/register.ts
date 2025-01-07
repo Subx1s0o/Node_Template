@@ -12,3 +12,5 @@ export const RegisterDto = z.object({
     .regex(/[0-9]/, 'Password must contain at least one number')
     .nonempty('Password is required')
 });
+
+export type RegisterDtoType = z.infer<typeof RegisterDto>;

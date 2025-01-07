@@ -3,7 +3,8 @@ import { Service } from 'typedi';
 import AuthService from './auth.service';
 import { Request, Response } from 'express';
 import { validateBody } from '@/libs/utils';
-import { RegisterDto } from './dto/register';
+import { RegisterDto, RegisterDtoType } from './dto/register';
+import { LoginDto, LoginDtoType } from './dto/login';
 
 @Service()
 @Controller('/auth')
@@ -11,17 +12,21 @@ class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/register')
-  async register(req: Request, res: Response) {
+  async register(req: Request & { body: RegisterDtoType }, res: Response) {
     const validatedBody = validateBody(RegisterDto, req.body);
 
-    const result = await this.authService.register(validatedBody, res);
+    const result = await this.authService.register(validatedBody);
 
     return res.status(200).json(result);
   }
 
   @Post('/login')
-  async login(req: Request, res: Response) {
-    return await this.authService.login(req, res);
+  async login(req: Request & { body: LoginDtoType }, res: Response) {
+    const validatedBody = validateBody(LoginDto, req.body);
+
+    const result = await this.authService.login(validatedBody);
+
+    return res.status(200).json(result);
   }
 }
 

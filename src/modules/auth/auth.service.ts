@@ -1,14 +1,15 @@
 import { Service } from 'typedi';
-import { Request, Response } from 'express';
+import { RegisterDtoType } from './dto/register';
+import { LoginDtoType } from './dto/login';
 
 @Service()
 class AuthService {
-  async register(req: Request, res: Response) {
-    return req.body;
+  async register(body: RegisterDtoType) {
+    return body;
   }
 
-  async login(req: Request, res: Response) {
-    return res.send('login');
+  async login(body: LoginDtoType) {
+    return body;
   }
 }
 
