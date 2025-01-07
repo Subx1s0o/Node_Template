@@ -1,14 +1,13 @@
 import { Service } from 'typedi';
+import { Logger } from '@/global';
 import { RegisterDtoType } from './dto/register';
-import { LoginDtoType } from './dto/login';
 
 @Service()
 class AuthService {
-  async register(body: RegisterDtoType) {
-    return body;
-  }
+  constructor(private readonly logger: Logger) {}
 
-  async login(body: LoginDtoType) {
+  async register(body: RegisterDtoType) {
+    this.logger.log('Registering user with data: ' + JSON.stringify(body));
     return body;
   }
 }

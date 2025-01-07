@@ -1,5 +1,5 @@
 import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
-import { Logger } from '../utils';
+import { Logger } from '@/global';
 import createHttpError from 'http-errors';
 
 export abstract class AbstractRepository<TDocument extends Document> {

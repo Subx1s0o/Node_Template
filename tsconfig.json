@@ -9,7 +9,7 @@
     "rootDir": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/libs/*": ["./libs/*"]
+      "@/libs/*": ["./libs/*"],    
     },
     "experimentalDecorators": true, 
     "emitDecoratorMetadata": true  

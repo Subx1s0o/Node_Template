@@ -1,9 +1,9 @@
 import { Service } from 'typedi';
-import { Logger } from '../utils';
+import { Logger } from '../logger/logger';
 
 @Service()
-class ConfigService {
-  constructor(private readonly logger: Logger = new Logger()) {}
+export class ConfigService {
+  constructor(private readonly logger: Logger) {}
 
   get(key: string, defaultValue: string): string {
     const value = process.env[key];
@@ -16,5 +16,3 @@ class ConfigService {
     return value;
   }
 }
-
-export default ConfigService;

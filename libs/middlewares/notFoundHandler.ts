@@ -5,7 +5,9 @@ export const notFoundHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(404).json({
-    message: 'Route not found'
-  });
+  if (!res.headersSent) {
+    res.status(404).json({ message: 'Not Found' });
+  } else {
+    next();
+  }
 };

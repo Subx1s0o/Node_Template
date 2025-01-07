@@ -1,26 +1,38 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { HttpError } from 'http-errors';
 
+import { ZodError } from 'zod';
 export const errorHandler = (
-  err: HttpError,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  if (err instanceof HttpError) {
-    const errors = err?.details || [];
+): void => {
+  if (res.headersSent) {
+    return next(err);
+  }
 
-    res.status(err.status).json({
-      status: err.status,
+  if (err instanceof ZodError) {
+    res.status(400).json({
+      message: 'Bad Request',
+      details: err.errors.map((e) => ({
+        field: e.path.join('.'),
+        message: e.message
+      }))
+    });
+    return;
+  }
+
+  if (err instanceof HttpError) {
+    res.status(err.status || 500).json({
       message: err.message,
-      errors: errors.length > 0 ? errors : ['Unknown error']
+      errors: err.errors || []
     });
     return;
   }
 
   res.status(500).json({
-    status: 500,
-    message: 'Something went wrong',
-    errors: [err.message]
+    message: 'Internal Server Error',
+    errors: [err.message || 'Unknown error']
   });
 };
