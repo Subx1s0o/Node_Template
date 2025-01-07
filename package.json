@@ -4,9 +4,7 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write .",
-    "start": "ts-node -r tsconfig-paths/register ./src/index.ts",
-    "dev": "nodemon -r --quiet tsconfig-paths/register ./src/index.ts",
-    "build": "tsc"
+    "start": "nodemon -r --quiet tsconfig-paths/register ./src/index.ts"
   },
   "keywords": [],
   "author": "",
