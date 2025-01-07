@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 @Service()
 class AuthService {
   async register(req: Request, res: Response) {
-    return res.send('register');
+    return req.body;
   }
 
   async login(req: Request, res: Response) {

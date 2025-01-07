@@ -1,3 +1,4 @@
+import { ctrlWrapper } from './ctrlWrapper';
 import { Logger } from '@/libs/utils';
 import 'reflect-metadata';
 
@@ -73,10 +74,7 @@ export function generateRoutes(controller: ControllerType): Router {
 
         router[methodType](
           fullPath,
-          (req: Request, res: Response, next: NextFunction) => {
-            // Викликаємо відповідний метод контролера
-            controllerInstance[method](req, res, next);
-          }
+          ctrlWrapper(controllerInstance[method]) // Викликаємо відповідний метод контролера
         );
       } else {
         // Якщо метод не є валідним HTTP методом, виводимо помилку

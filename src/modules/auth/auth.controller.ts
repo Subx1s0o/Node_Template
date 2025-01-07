@@ -1,24 +1,26 @@
-import { Controller, Get } from '@/libs/decorators';
+import { Controller, Post } from '@/libs/decorators';
 import { Service } from 'typedi';
 import AuthService from './auth.service';
+import { Request, Response } from 'express';
+import { validateBody } from '@/libs/utils';
+import { RegisterDto } from './dto/register';
 
 @Service()
 @Controller('/auth')
 class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('/')
-  async index(req: any, res: any) {
-    return res.send('index');
+  @Post('/register')
+  async register(req: Request, res: Response) {
+    const validatedBody = validateBody(RegisterDto, req.body);
+
+    const result = await this.authService.register(validatedBody, res);
+
+    return res.status(200).json(result);
   }
 
-  @Get('/register')
-  async register(req: any, res: any) {
-    return await this.authService.register(req, res);
-  }
-
-  @Get('/login')
-  async login(req: any, res: any) {
+  @Post('/login')
+  async login(req: Request, res: Response) {
     return await this.authService.login(req, res);
   }
 }
