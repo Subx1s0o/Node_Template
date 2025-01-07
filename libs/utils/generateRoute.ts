@@ -1,7 +1,9 @@
+import { Logger } from '@/libs/config/Logger/logger';
 import 'reflect-metadata';
 
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
+import chalk from 'chalk';
 
 // Тип для HTTP методів (GET, POST, PUT, DELETE, PATCH)
 type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
@@ -22,6 +24,7 @@ type ControllerInstance = InstanceType<ControllerType>;
  */
 export function generateRoutes(controller: ControllerType): Router {
   const router = Router();
+  const logger = new Logger();
   // Отримуємо глобальний шлях контролера (зазначено через декоратор @Controller)
   const controllerPath: string = Reflect.getMetadata('path', controller);
 
@@ -30,6 +33,11 @@ export function generateRoutes(controller: ControllerType): Router {
 
   // Отримуємо всі методи класу контролера (включаючи constructor, який потрібно пропустити)
   const methods = Object.getOwnPropertyNames(controller.prototype);
+
+  if (methods.length === 1 && methods[0] === 'constructor') {
+    logger.warn(`${controller.name} has no methods to generate routes.`);
+    return router; // Якщо методів нема, просто повертаємо порожній маршрутизатор
+  }
 
   // Проходимо по всіх методах контролера
   methods.forEach((method) => {
@@ -53,7 +61,14 @@ export function generateRoutes(controller: ControllerType): Router {
       // Перевіряємо, чи є метод у router для цього HTTP методу
       if (router[methodType]) {
         // Додаємо маршрут до Express маршрутизатора
-        console.log(` ${method}: ${methodType.toUpperCase()} ${fullPath}`);
+
+        logger.log(
+          chalk.white(
+            '[Initialized route]: ' +
+              chalk.green(`${methodType.toUpperCase()} ${fullPath}`)
+          )
+        );
+
         router[methodType](
           fullPath,
           (req: Request, res: Response, next: NextFunction) => {
@@ -63,13 +78,25 @@ export function generateRoutes(controller: ControllerType): Router {
         );
       } else {
         // Якщо метод не є валідним HTTP методом, виводимо помилку
-        console.error(
-          `Method ${methodType} is not a valid HTTP method on router`
+        logger.error(
+          chalk.white(
+            '[Error initializing route]: ' +
+              chalk.red(
+                `${methodType.toUpperCase()} ${fullPath} - Invalid HTTP method`
+              )
+          )
         );
       }
     } else {
       // Якщо для методу немає метаданих (методу типу або шляху), виводимо помилку
-      console.error(`Missing metadata for method: ${method}`);
+      logger.error(
+        chalk.white(
+          '[Error initializing route]: ' +
+            chalk.red(
+              `${methodType.toUpperCase()} ${method} - Missing metadata`
+            )
+        )
+      );
     }
   });
 
