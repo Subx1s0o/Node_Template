@@ -1,5 +1,5 @@
 {
-  "name": "test-monorepo",
+  "name": "node_template",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "start": "nodemon -r --quiet tsconfig-paths/register ./src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Subx1s0o",
   "license": "ISC",
   "description": "",
   "dependencies": {
