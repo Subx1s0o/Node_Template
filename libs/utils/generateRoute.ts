@@ -1,4 +1,4 @@
-import { Logger } from '@/libs/config/Logger/logger';
+import { Logger } from '@/libs/utils';
 import 'reflect-metadata';
 
 import { Router, Request, Response, NextFunction } from 'express';

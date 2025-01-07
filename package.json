@@ -5,7 +5,7 @@
   "scripts": {
     "format": "prettier --write .",
     "start": "ts-node -r tsconfig-paths/register ./src/index.ts",
-    "dev": " nodemon -r --quiet tsconfig-paths/register ./src/index.ts",
+    "dev": "nodemon -r --quiet tsconfig-paths/register ./src/index.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "description": "",
   "dependencies": {
     "chalk": "^4.1.2",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "reflect-metadata": "^0.2.2",
     "typedi": "^0.10.0"

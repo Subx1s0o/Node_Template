@@ -1,5 +1,7 @@
 import chalk from 'chalk';
+import { Service } from 'typedi';
 
+@Service()
 export class Logger {
   private getCurrentTime(): string {
     const now = new Date();
